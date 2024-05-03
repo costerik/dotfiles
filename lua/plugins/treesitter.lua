@@ -9,6 +9,7 @@ return {
     local treesitter = require("nvim-treesitter.configs")
 
     treesitter.setup({
+      ensure_installed = { "regex", "bash", "markdown", "markdown_inline" },
       highlight = {
         enable = true,
       },
