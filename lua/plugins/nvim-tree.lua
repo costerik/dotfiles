@@ -26,6 +26,9 @@ return {
             enable = false,
           },
         },
+        change_dir = {
+          global = true,
+        },
       },
     })
     local keymap = vim.keymap
