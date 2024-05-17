@@ -11,7 +11,9 @@ return {
     null_ls.setup({
       sources = {
         null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.prettier.with({
+          only_local = "node_modules/.bin",
+        }),
         require("none-ls.diagnostics.eslint"),
       },
       on_attach = function(client, bufnr)
