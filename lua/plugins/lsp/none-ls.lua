@@ -8,12 +8,13 @@ return {
 
     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
+    local formatting = null_ls.builtins.formatting
+
     null_ls.setup({
       sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.prettier.with({
-          only_local = "node_modules/.bin",
-        }),
+        formatting.stylua,
+        formatting.prettier,
+        require("none-ls.code_actions.eslint"),
         require("none-ls.diagnostics.eslint"),
       },
       on_attach = function(client, bufnr)
@@ -25,7 +26,7 @@ return {
             callback = function()
               -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
               -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-              vim.lsp.buf.format({ async = false })
+              vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
             end,
           })
         end

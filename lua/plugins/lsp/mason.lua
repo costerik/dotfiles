@@ -29,6 +29,7 @@ return {
         "tailwindcss",
         "lua_ls",
         "graphql",
+        "eslint",
       },
     })
 
