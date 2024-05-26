@@ -30,6 +30,7 @@ return {
         "lua_ls",
         "graphql",
         "eslint",
+        "bashls",
       },
     })
 

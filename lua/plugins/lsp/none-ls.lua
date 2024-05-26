@@ -2,6 +2,10 @@ return {
   "nvimtools/none-ls.nvim",
   dependencies = {
     "nvimtools/none-ls-extras.nvim",
+    -- Install shellcheck and shfmt
+    -- https://github.com/koalaman/shellcheck
+    -- https://github.com/mvdan/sh
+    "gbprod/none-ls-shellcheck.nvim",
   },
   config = function()
     local null_ls = require("null-ls")
@@ -16,6 +20,11 @@ return {
         formatting.prettier,
         require("none-ls.code_actions.eslint"),
         require("none-ls.diagnostics.eslint"),
+        require("none-ls-shellcheck.diagnostics"),
+        require("none-ls-shellcheck.code_actions"),
+        null_ls.builtins.formatting.shfmt.with({
+          filetypes = { "sh", "zsh" },
+        }),
       },
       on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
