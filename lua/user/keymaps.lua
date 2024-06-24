@@ -52,8 +52,8 @@ opts.desc = "Move Selected Code Down"
 keymap.set("x", "J", ":move '>+1<CR>gv-gv", opts)
 
 -- Open current file in a new tab
-opts.desc = "Open Current buffer in a new tab"
-keymap.set("n", "<C-w>T", ":tab split<CR>", opts)
+-- opts.desc = "Open Current buffer in a new tab"
+-- keymap.set("n", "<C-w>T", ":tab split<CR>", opts)
 
 -- Delete without yanking to the default register
 keymap.set("n", "d", '"_d', opts)
