@@ -31,6 +31,7 @@ return {
         "graphql",
         "eslint",
         "bashls",
+        "volar",
       },
     })
 

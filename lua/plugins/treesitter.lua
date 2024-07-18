@@ -9,7 +9,6 @@ return {
     local treesitter = require("nvim-treesitter.configs")
 
     treesitter.setup({
-      ensure_installed = { "regex", "bash", "markdown", "markdown_inline" },
       highlight = {
         enable = true,
       },
@@ -17,9 +16,6 @@ return {
         enable = true,
       },
       -- enable autotagging (w/nvim-ts-autotag plugin)
-      autotag = {
-        enable = true,
-      },
       auto_install = true,
       incremental_selection = {
         enable = true,
@@ -31,5 +27,7 @@ return {
         },
       },
     })
+
+    require("nvim-ts-autotag").setup()
   end,
 }

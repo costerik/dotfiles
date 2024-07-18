@@ -88,6 +88,65 @@ return {
           capabilities = capabilities,
         })
       end,
+      ["tsserver"] = function()
+        lspconfig["tsserver"].setup({
+          -- NOTE: To enable Hybrid Mode, change hybrideMode to true below
+          -- WARN: THIS MAY CAUSE HIGHLIGHTING ISSUES WITHIN THE TEMPLATE SCOPE WHEN TSSERVER ATTACHES TO VUE FILES
+          capabilities = capabilities,
+          init_options = {
+            plugins = {
+              {
+                name = "@vue/typescript-plugin",
+                location = vim.fn.stdpath("data")
+                    .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+                languages = { "javascript", "typescript", "vue" },
+              },
+            },
+          },
+          filetypes = {
+            "javascript",
+            "javascript.jsx",
+            "javascriptreact",
+            "typescript",
+            "typescript.tsx",
+            "typescriptreact",
+            "vue",
+          },
+        })
+      end,
+      ["volar"] = function()
+        lspconfig["volar"].setup({
+          capabilities = capabilities,
+          filetypes = {
+            "typescript",
+            "javascript",
+            "vue",
+          },
+          -- NOTE: Uncomment to enable volar in file types other than vue.
+          -- (Similar to Takeover Mode)
+
+          -- filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
+
+          -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
+
+          -- root_dir = require("lspconfig").util.root_pattern(
+          --   "vue.config.js",
+          --   "vue.config.ts",
+          --   "nuxt.config.js",
+          --   "nuxt.config.ts"
+          -- ),
+          init_options = {
+            vue = {
+              hybridMode = false,
+            },
+            -- NOTE: This might not be needed. Uncomment if you encounter issues.
+
+            -- typescript = {
+            --   tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
+            -- },
+          },
+        })
+      end,
       ["lua_ls"] = function()
         lspconfig["lua_ls"].setup({
           capabilities = capabilities,
