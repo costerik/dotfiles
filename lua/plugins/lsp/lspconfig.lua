@@ -98,7 +98,7 @@ return {
               {
                 name = "@vue/typescript-plugin",
                 location = vim.fn.stdpath("data")
-                    .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+                  .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
                 languages = { "javascript", "typescript", "vue" },
               },
             },
@@ -129,12 +129,12 @@ return {
 
           -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
 
-          -- root_dir = require("lspconfig").util.root_pattern(
-          --   "vue.config.js",
-          --   "vue.config.ts",
-          --   "nuxt.config.js",
-          --   "nuxt.config.ts"
-          -- ),
+          root_dir = require("lspconfig").util.root_pattern(
+            "vue.config.js",
+            "vue.config.ts",
+            "nuxt.config.js",
+            "nuxt.config.ts"
+          ),
           init_options = {
             vue = {
               hybridMode = false,
@@ -162,21 +162,37 @@ return {
           },
         })
       end,
-      ["eslint"] = function()
-        lspconfig["eslint"].setup({
-          capabilities = capabilities,
-          on_attach = function(_, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = bufnr,
-              command = "EslintFixAll",
-            })
-          end,
-        })
-      end,
+      -- ["eslint"] = function()
+      --   lspconfig["eslint"].setup({
+      --     capabilities = capabilities,
+      --     on_attach = function(_, bufnr)
+      --       vim.api.nvim_create_autocmd("BufWritePre", {
+      --         buffer = bufnr,
+      --         command = "EslintFixAll",
+      --       })
+      --     end,
+      --   })
+      -- end,
       ["bashls"] = function()
         lspconfig["bashls"].setup({
           capabilities = capabilities,
           filetypes = { "sh", "zsh" },
+        })
+      end,
+      ["graphql"] = function()
+        lspconfig["graphql"].setup({
+          capabilities = capabilities,
+          filetypes = {
+            "graphql",
+            "gql",
+            "vue",
+            "javascript",
+            "javascript.jsx",
+            "javascriptreact",
+            "typescript",
+            "typescript.tsx",
+            "typescriptreact",
+          },
         })
       end,
     })
