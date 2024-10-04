@@ -119,27 +119,18 @@ return {
           capabilities = capabilities,
           -- NOTE: Uncomment to enable volar in file types other than vue.
           -- (Similar to Takeover Mode)
-
           filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
-
           -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
-
-          -- root_dir = require("lspconfig").util.root_pattern(
-          --   "vue.config.js",
-          --   "vue.config.ts",
-          --   "nuxt.config.js",
-          --   "nuxt.config.ts"
-          -- ),
-          init_options = {
-            -- vue = {
-            --   hybridMode = false,
-            -- },
-            -- NOTE: This might not be needed. Uncomment if you encounter issues.
-
-            -- typescript = {
-            --   tsdk = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib",
-            -- },
-          },
+          root_dir = lspconfig.util.root_pattern("vue.config.js", "vue.config.ts", "nuxt.config.js", "nuxt.config.ts"),
+          -- init_options = {
+          -- vue = {
+          --   hybridMode = false,
+          -- },
+          -- NOTE: This might not be needed. Uncomment if you encounter issues.
+          -- typescript = {
+          --   tsdk = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib",
+          -- },
+          -- },
         })
       end,
       ["lua_ls"] = function()
@@ -157,17 +148,6 @@ return {
           },
         })
       end,
-      -- ["eslint"] = function()
-      --   lspconfig["eslint"].setup({
-      --     capabilities = capabilities,
-      --     on_attach = function(_, bufnr)
-      --       vim.api.nvim_create_autocmd("BufWritePre", {
-      --         buffer = bufnr,
-      --         command = "EslintFixAll",
-      --       })
-      --     end,
-      --   })
-      -- end,
       ["bashls"] = function()
         lspconfig["bashls"].setup({
           capabilities = capabilities,
