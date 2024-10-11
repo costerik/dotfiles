@@ -50,6 +50,7 @@ return {
         { name = "luasnip" },
         { name = "buffer" },
         { name = "path" },
+        { name = "nvim_px_to_rem" },
       }),
       formatting = {
         format = lspkind.cmp_format({
