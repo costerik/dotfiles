@@ -31,6 +31,9 @@ return {
         "graphql",
         "bashls",
         "volar",
+        "jsonls",
+        "yamlls",
+        "terraformls",
       },
     })
 

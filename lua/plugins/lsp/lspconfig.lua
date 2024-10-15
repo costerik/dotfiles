@@ -170,6 +170,28 @@ return {
           },
         })
       end,
+      ["cssls"] = function()
+        lspconfig["cssls"].setup({
+          capabilities = capabilities,
+          settings = {
+            css = {
+              lint = {
+                unknownAtRules = "ignore", -- Ignore unknown @rules like @tailwind
+              },
+            },
+            scss = {
+              lint = {
+                unknownAtRules = "ignore",
+              },
+            },
+            less = {
+              lint = {
+                unknownAtRules = "ignore",
+              },
+            },
+          },
+        })
+      end,
     })
   end,
 }
