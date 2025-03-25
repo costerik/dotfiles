@@ -1,5 +1,10 @@
 return {
   "neovim/nvim-lspconfig",
+  opts = {
+    inlay_hints = {
+      enabled = true,
+    },
+  },
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
@@ -70,6 +75,13 @@ return {
 
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+        if vim.lsp.inlay_hint then
+          opts.desc = "Toggle Inlay Hints"
+          keymap.set("n", "<leader>ih", function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+          end, opts) -- mapping to restart lsp if necessary
+        end
       end,
     })
 
@@ -112,27 +124,53 @@ return {
             "typescriptreact",
             "vue",
           },
+          settings = {
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+          },
         })
       end,
-      ["volar"] = function()
-        lspconfig["volar"].setup({
-          capabilities = capabilities,
-          -- NOTE: Uncomment to enable volar in file types other than vue.
-          -- (Similar to Takeover Mode)
-          filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
-          -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
-          root_dir = lspconfig.util.root_pattern("vue.config.js", "vue.config.ts", "nuxt.config.js", "nuxt.config.ts"),
-          -- init_options = {
-          -- vue = {
-          --   hybridMode = false,
-          -- },
-          -- NOTE: This might not be needed. Uncomment if you encounter issues.
-          -- typescript = {
-          --   tsdk = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib",
-          -- },
-          -- },
-        })
-      end,
+      -- ["volar"] = function()
+      --   lspconfig["volar"].setup({
+      --     capabilities = capabilities,
+      --     -- NOTE: Uncomment to enable volar in file types other than vue.
+      --     -- (Similar to Takeover Mode)
+      --     filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
+      --     -- NOTE: Uncomment to restrict Volar to only Vue/Nuxt projects. This will enable Volar to work alongside other language servers (tsserver).
+      --     root_dir = lspconfig.util.root_pattern("vue.config.js", "vue.config.ts", "nuxt.config.js", "nuxt.config.ts"),
+      --     init_options = {
+      --       -- vue = {
+      --       --   hybridMode = true,
+      --       -- },
+      --       -- NOTE: This might not be needed. Uncomment if you encounter issues.
+      --       -- typescript = {
+      --       --   tsdk = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib",
+      --       -- },
+      --     },
+      --   })
+      -- end,
       ["lua_ls"] = function()
         lspconfig["lua_ls"].setup({
           capabilities = capabilities,
@@ -143,6 +181,9 @@ return {
               },
               completion = {
                 callSnipets = "Replace",
+              },
+              hint = {
+                enable = true,
               },
             },
           },
