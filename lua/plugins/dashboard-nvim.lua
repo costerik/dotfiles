@@ -6,6 +6,12 @@ return {
   },
   config = function()
     local dashboard = require("dashboard")
-    dashboard.setup()
+    dashboard.setup({
+      config = {
+        week_header = {
+          enable = true,
+        },
+      },
+    })
   end,
 }
