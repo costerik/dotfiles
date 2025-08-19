@@ -1,7 +1,7 @@
 return {
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   dependencies = {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
@@ -29,19 +29,20 @@ return {
         "tailwindcss",
         "lua_ls",
         "graphql",
-        "bashls",
-        "volar",
+        -- "bashls",
+        "vue_ls",
         "jsonls",
         "yamlls",
-        "terraformls",
+        -- "terraformls",
       },
+      automatic_enable = true,
     })
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier",
+        -- "prettier",
         "prettierd",
-        "eslint",
+        -- "eslint",
         "eslint_d",
         "stylua",
       },
