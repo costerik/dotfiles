@@ -1,6 +1,5 @@
 return {
   "folke/noice.nvim",
-  event = "VeryLazy",
   opts = {
     -- add any options here
   },
@@ -35,4 +34,5 @@ return {
 
     vim.keymap.set("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Dismiss Noice Message" })
   end,
+  -- enabled = false, -- Disable it in favor of which-key
 }
