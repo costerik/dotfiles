@@ -34,6 +34,7 @@ return {
         "jsonls",
         "yamlls",
         -- "terraformls",
+        "angularls",
       },
       automatic_enable = true,
     })
