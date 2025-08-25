@@ -113,7 +113,12 @@ return {
       end,
     })
 
-    local capabilities = cmp_nvim_lsp.default_capabilities()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+    vim.lsp.config("*", {
+      capabilities = capabilities,
+    })
 
     vim.diagnostic.config({
       signs = {
@@ -145,7 +150,6 @@ return {
     lspconfig.ts_ls.setup({
       -- NOTE: To enable Hybrid Mode, change hybrideMode to true below
       -- WARN: THIS MAY CAUSE HIGHLIGHTING ISSUES WITHIN THE TEMPLATE SCOPE WHEN TSSERVER ATTACHES TO VUE FILES
-      capabilities = capabilities,
       init_options = {
         plugins = {
           {
@@ -195,7 +199,6 @@ return {
 
     -- lua_ls
     lspconfig.lua_ls.setup({
-      capabilities = capabilities,
       settings = {
         Lua = {
           diagnostics = { globals = { "vim" } },
@@ -207,17 +210,30 @@ return {
 
     -- graphql
     lspconfig.graphql.setup({
-      capabilities = capabilities,
       filetypes = { "graphql", "gql", "vue", "javascript", "typescript" },
     })
 
     -- cssls
     lspconfig.cssls.setup({
-      capabilities = capabilities,
       settings = {
-        css = { lint = { unknownAtRules = "ignore" } },
-        scss = { lint = { unknownAtRules = "ignore" } },
-        less = { lint = { unknownAtRules = "ignore" } },
+        css = {
+          validate = true,
+          lint = {
+            unknownAtRules = "ignore",
+          },
+        },
+        scss = {
+          validate = true,
+          lint = {
+            unknownAtRules = "ignore",
+          },
+        },
+        less = {
+          validate = true,
+          lint = {
+            unknownAtRules = "ignore",
+          },
+        },
       },
     })
   end,

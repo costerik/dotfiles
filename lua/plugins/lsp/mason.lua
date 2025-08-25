@@ -36,7 +36,7 @@ return {
         -- "terraformls",
         "angularls",
       },
-      automatic_enable = true,
+      -- automatic_enable = true,
     })
 
     mason_tool_installer.setup({
