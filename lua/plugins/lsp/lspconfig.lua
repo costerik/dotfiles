@@ -197,6 +197,16 @@ return {
       },
     })
 
+    -- jsonls
+    lspconfig.jsonls.setup({
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
+    })
+
     -- lua_ls
     lspconfig.lua_ls.setup({
       settings = {
