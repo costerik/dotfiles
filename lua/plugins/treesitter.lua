@@ -29,10 +29,6 @@ return {
       highlight = { enable = true },
       indent = { enable = true },
 
-      -- enable autotagging (w/nvim-ts-autotag plugin)
-      autotag = {
-        enable = true,
-      },
       auto_install = true,
 
       -- Add these so Lua LS shuts up
@@ -50,6 +46,8 @@ return {
         },
       },
     })
+
+    require("nvim-ts-autotag").setup()
 
     -- Use angular parser for *.component.html but keep filetype as html
     local ts_parsers = require("nvim-treesitter.parsers")
