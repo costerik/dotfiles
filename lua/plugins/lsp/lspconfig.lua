@@ -18,8 +18,6 @@ return {
     },
   },
   config = function()
-    local lspconfig = require("lspconfig")
-
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
     local keymap = vim.keymap -- for conciseness
@@ -147,7 +145,9 @@ return {
     })
 
     -- ts_ls
-    lspconfig.ts_ls.setup({
+    -- ts_ls using new vim.lsp.config API
+    vim.lsp.config("ts_ls", {
+      cmd = { "typescript-language-server", "--stdio" },
       -- NOTE: To enable Hybrid Mode, change hybrideMode to true below
       -- WARN: THIS MAY CAUSE HIGHLIGHTING ISSUES WITHIN THE TEMPLATE SCOPE WHEN TSSERVER ATTACHES TO VUE FILES
       init_options = {
@@ -168,6 +168,12 @@ return {
         "typescript.tsx",
         "typescriptreact",
         "vue",
+      },
+      root_markers = {
+        "tsconfig.json",
+        "package.json",
+        "jsconfig.json",
+        ".git",
       },
       settings = {
         javascript = {
@@ -197,8 +203,14 @@ return {
       },
     })
 
-    -- jsonls
-    lspconfig.jsonls.setup({
+    -- jsonls using new vim.lsp.config API
+    vim.lsp.config("jsonls", {
+      cmd = { "vscode-json-language-server", "--stdio" },
+      filetypes = { "json", "jsonc" },
+      root_markers = {
+        ".git",
+        "package.json",
+      },
       settings = {
         json = {
           schemas = require("schemastore").json.schemas(),
@@ -207,8 +219,20 @@ return {
       },
     })
 
-    -- lua_ls
-    lspconfig.lua_ls.setup({
+    -- lua_ls using new vim.lsp.config API
+    vim.lsp.config("lua_ls", {
+      cmd = { "lua-language-server" },
+      filetypes = { "lua" },
+      root_markers = {
+        ".luarc.json",
+        ".luarc.jsonc",
+        ".luacheckrc",
+        ".stylua.toml",
+        "stylua.toml",
+        "selene.toml",
+        "selene.yml",
+        ".git",
+      },
       settings = {
         Lua = {
           diagnostics = { globals = { "vim" } },
@@ -218,13 +242,27 @@ return {
       },
     })
 
-    -- graphql
-    lspconfig.graphql.setup({
+    -- graphql using new vim.lsp.config API
+    vim.lsp.config("graphql", {
+      cmd = { "graphql-lsp", "server", "-m", "stream" },
       filetypes = { "graphql", "gql", "vue", "javascript", "typescript" },
+      root_markers = {
+        ".graphqlrc*",
+        ".graphql.config.*",
+        "graphql.config.*",
+        "package.json",
+        ".git",
+      },
     })
 
-    -- cssls
-    lspconfig.cssls.setup({
+    -- cssls using new vim.lsp.config API
+    vim.lsp.config("cssls", {
+      cmd = { "vscode-css-language-server", "--stdio" },
+      filetypes = { "css", "scss", "less" },
+      root_markers = {
+        "package.json",
+        ".git",
+      },
       settings = {
         css = {
           validate = true,
