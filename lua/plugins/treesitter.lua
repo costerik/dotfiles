@@ -57,6 +57,7 @@ return {
     vim.api.nvim_create_autocmd("BufRead", {
       pattern = "*.component.html",
       callback = function()
+        vim.bo.filetype = "html" -- so Conform + LSP see 'html'
         vim.treesitter.start(0, "angular")
       end,
     })
