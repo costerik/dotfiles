@@ -15,6 +15,7 @@ return {
         scss = { "prettier" },
         html = { "prettier" },
         json = { "prettier" },
+        jsonc = { "prettier" },
         yaml = { "prettier" },
         vue = { "prettier" },
         markdown = { "prettier" },
