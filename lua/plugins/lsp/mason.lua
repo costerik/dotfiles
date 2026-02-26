@@ -34,7 +34,7 @@ return {
         "jsonls",
         "yamlls",
         -- "terraformls",
-        "angularls",
+        -- "angularls",
       },
       -- automatic_enable = true,
     })
@@ -46,6 +46,8 @@ return {
         -- "eslint",
         "eslint_d",
         "stylua",
+        "oxlint",
+        "oxfmt",
       },
     })
   end,
