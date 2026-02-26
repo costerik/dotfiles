@@ -21,6 +21,7 @@ local options = {
   relativenumber = true, -- set relative numbered lines
   ruler = true,          -- displays the current cursor position in the status line at the bottom of the window
   scrolloff = 8,         -- is one of my fav
+  sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions", -- recommended for auto-session
   shiftwidth = 2,        -- 2 spaces for indent width
   showtabline = 2,       -- always show tabs
   signcolumn = "yes",    -- always show the sign column, otherwise it would shift the text each time

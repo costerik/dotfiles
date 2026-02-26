@@ -1,18 +1,20 @@
 return {
   "rmagatti/auto-session",
   lazy = false,
-  config = function()
-    local auto_session = require("auto-session")
+  opts = {
+    auto_restore = false,
+    suppressed_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
+    bypass_save_filetypes = { "dashboard" },
 
-    auto_session.setup({
-      auto_restore = false,
-      suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
-    })
-    local keymap = vim.keymap
-
-    keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session" })
-    keymap.set("n", "<leader>wS", "<cmd>SessionSearch<CR>", { desc = "Session search" })
-    keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session" })
-    keymap.set("n", "<leader>wa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Toggle autosave" })
-  end,
+    session_lens = {
+      load_on_setup = true,
+      previewer = "summary",
+    },
+  },
+  keys = {
+    { "<leader>wr", "<cmd>AutoSession restore<CR>", desc = "Restore session" },
+    { "<leader>wS", "<cmd>AutoSession search<CR>", desc = "Session search" },
+    { "<leader>ws", "<cmd>AutoSession save<CR>", desc = "Save session" },
+    { "<leader>wa", "<cmd>AutoSession toggle<CR>", desc = "Toggle autosave" },
+  },
 }
