@@ -100,7 +100,12 @@ return {
 
         -- Restart LSP
         opts.desc = "Restart LSP"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        keymap.set("n", "<leader>rs", function()
+          for _, client in ipairs(vim.lsp.get_clients()) do
+            client:stop()
+          end
+          vim.cmd("edit")
+        end, opts)
 
         if vim.lsp.inlay_hint then
           opts.desc = "Toggle Inlay Hints"
@@ -144,22 +149,10 @@ return {
       update_in_insert = false, -- Keep diagnostics active in insert mode
     })
 
-    -- ts_ls
-    -- ts_ls using new vim.lsp.config API
-    vim.lsp.config("ts_ls", {
-      cmd = { "typescript-language-server", "--stdio" },
-      -- NOTE: To enable Hybrid Mode, change hybrideMode to true below
-      -- WARN: THIS MAY CAUSE HIGHLIGHTING ISSUES WITHIN THE TEMPLATE SCOPE WHEN TSSERVER ATTACHES TO VUE FILES
-      init_options = {
-        plugins = {
-          {
-            name = "@vue/typescript-plugin",
-            location = vim.fn.stdpath("data")
-              .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
-            languages = { "vue" },
-          },
-        },
-      },
+    -- vtsls — drop-in replacement for ts_ls, dramatically faster on large
+    -- monorepos and heavy generics (e.g. @tanstack/react-router route trees).
+    vim.lsp.config("vtsls", {
+      cmd = { "vtsls", "--stdio" },
       filetypes = {
         "javascript",
         "javascript.jsx",
@@ -176,28 +169,51 @@ return {
         ".git",
       },
       settings = {
-        javascript = {
-          inlayHints = {
-            includeInlayParameterNameHints = "all",
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-            includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayEnumMemberValueHints = true,
+        vtsls = {
+          -- Bump tsserver memory ceiling — heavy generics can blow past the
+          -- default ~3GB and cause freezes/crashes.
+          tsserver = {
+            globalPlugins = {
+              {
+                name = "@vue/typescript-plugin",
+                location = vim.fn.stdpath("data")
+                  .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+                languages = { "vue" },
+                configNamespace = "typescript",
+                enableForWorkspaceTypeScriptVersions = true,
+              },
+            },
+            maxTsServerMemory = 8192,
+          },
+          experimental = {
+            -- Speeds up completion in large projects by deferring expensive
+            -- detail computation until an item is actually selected.
+            completion = {
+              enableServerSideFuzzyMatch = true,
+            },
           },
         },
         typescript = {
+          -- Inlay hints are expensive on heavy generics — keep parameter names
+          -- for literals only and drop the type-inference hints that trigger
+          -- expensive evaluation.
           inlayHints = {
-            includeInlayParameterNameHints = "all",
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-            includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayEnumMemberValueHints = true,
+            parameterNames = { enabled = "literals" },
+            parameterTypes = { enabled = false },
+            variableTypes = { enabled = false },
+            propertyDeclarationTypes = { enabled = false },
+            functionLikeReturnTypes = { enabled = false },
+            enumMemberValues = { enabled = true },
+          },
+        },
+        javascript = {
+          inlayHints = {
+            parameterNames = { enabled = "literals" },
+            parameterTypes = { enabled = false },
+            variableTypes = { enabled = false },
+            propertyDeclarationTypes = { enabled = false },
+            functionLikeReturnTypes = { enabled = false },
+            enumMemberValues = { enabled = true },
           },
         },
       },
@@ -245,13 +261,11 @@ return {
     -- graphql using new vim.lsp.config API
     vim.lsp.config("graphql", {
       cmd = { "graphql-lsp", "server", "-m", "stream" },
-      filetypes = { "graphql", "gql", "vue", "javascript", "typescript" },
+      filetypes = { "graphql", "gql" },
       root_markers = {
         ".graphqlrc*",
         ".graphql.config.*",
         "graphql.config.*",
-        "package.json",
-        ".git",
       },
     })
 
